@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Canvas Interativo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .controls select,
+    .controls button {
+      margin-right: 10px;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="color: green">Canvas Interativo</h1>
+  <div class="controls">
+    <label for="shape">Forma:</label>
+    <select id="shape">
+      <option value="circulo">Círculo</option>
+      <option value="triangulo">Triângulo</option>
+      <option value="retangulo">Retângulo</option>
+    </select>
+
+    <label for="color">Cor:</label>
+    <select id="color">
+      <option value="red">Vermelho</option>
+      <option value="blue">Azul</option>
+      <option value="green">Verde</option>
+    </select>
+
+    <button id="animate">Iniciar Animação</button>
+  </div>
+
+  <canvas width="1000" height="600" id="canvas"></canvas>
+
+  <script>
+    function circulo(x, y, cor) {
+      var c = document.getElementById('canvas');
+      var ctx = c.getContext('2d');
+      var radius = 10;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+      ctx.fillStyle = cor;
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function triangulo(x, y, cor) {
+      var c = document.getElementById('canvas');
+      var ctx = c.getContext('2d');
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, y - 25);
+      ctx.lineTo(x - 25, y + 25);
+      ctx.lineTo(x + 25, y + 25);
+      ctx.closePath();
+      ctx.fillStyle = cor;
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function retangulo(x, y, cor) {
+      var c = document.getElementById('canvas');
+      var ctx = c.getContext('2d');
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(x - 25, y - 25, 50, 50);
+      ctx.fillStyle = cor;
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawShape(x, y, shape, color) {
+      if (shape === 'circulo') {
+        circulo(x, y, color);
+      } else if (shape === 'triangulo') {
+        triangulo(x, y, color);
+      } else if (shape === 'retangulo') {
+        retangulo(x, y, color);
+      }
+    }
+
+    function getMousePosition(canvas, event) {
+      let rect = canvas.getBoundingClientRect();
+      let x = event.clientX - rect.left;
+      let y = event.clientY - rect.top;
+      let shape = document.getElementById('shape').value;
+      let color = document.getElementById('color').value;
+      drawShape(x, y, shape, color);
+    }
+
+    function startAnimation() {
+      let canvas = document.getElementById('canvas');
+      let ctx = canvas.getContext('2d');
+      let shape = document.getElementById('shape').value;
+      let color = document.getElementById('color').value;
+
+      function drawRandomPoint() {
+        let x = Math.random() * canvas.width;
+        let y = Math.random() * canvas.height;
+        drawShape(x, y, shape, color);
+      }
+
+      let interval = setInterval(drawRandomPoint, 500);
+      setTimeout(() => clearInterval(interval), 5000); // Para a animação após 5 segundos
+    }
+
+    document.getElementById('canvas').addEventListener('mousedown', function (e) {
+      getMousePosition(this, e);
+    });
+
+    document.getElementById('animate').addEventListener('click', startAnimation);
+  </script>
+</body>
+
+</html>
