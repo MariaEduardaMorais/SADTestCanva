@@ -12,8 +12,8 @@ This web system allows creating an interactive canvas where users can draw geome
 ## 🚀 How to Use
 1. Clone the repository:
 
-       git clone https://github.com/MariaEduardaMorais/CanvasInterativo.git
-       cd CanvasInterativo
+       git clone https://github.com/MariaEduardaMorais/SADTestCanva.git
+       cd SADTestCanva
      
 2. Open the index.html file directly in the browser or use an extension like Live Server to run it locally.
 
